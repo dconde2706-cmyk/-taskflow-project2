@@ -6,12 +6,11 @@ const themeToggle = document.getElementById("theme-toggle");
 
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-// Cargar tareas
 document.addEventListener("DOMContentLoaded", () => {
   tasks.forEach(task => createTask(task));
 });
 
-// Añadir tarea
+
 form.addEventListener("submit", function(e){
   e.preventDefault();
 
@@ -26,7 +25,7 @@ form.addEventListener("submit", function(e){
   input.value = "";
 });
 
-// Crear tarea
+
 function createTask(task){
 
   const li = document.createElement("li");
@@ -52,12 +51,10 @@ function createTask(task){
   list.appendChild(li);
 }
 
-// Guardar tareas
 function saveTasks(){
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-// Buscador
 search.addEventListener("input", function(){
 
   const text = search.value.toLowerCase();
@@ -77,7 +74,7 @@ search.addEventListener("input", function(){
 
 });
 
-// Toggle modo oscuro
 themeToggle.addEventListener("click", () => {
   document.documentElement.classList.toggle("dark");
 });
+
