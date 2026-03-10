@@ -194,6 +194,166 @@ Event Loop	Sistema que gestiona la ejecución de tareas asíncronas
 DOM	Representación del HTML como objetos manipulables con JavaScript
 
 
-Comparacion:
+COMPARACION:
 
-La mayor diferencia es que en ChatGPT estan mas desarrollados los terminos y en Claude estan mas simplificados aunque en cuanto a codigo los dos dan practicamente lo mismo.
+La mayor diferencia es que en ChatGPT estan mas desarrollados los terminos y en Claude estan mas simplificados aunque en cuanto a los codigos que te dan los dos son muy parecidos y practicamente iguales.
+
+
+DETECTAR BUGS:
+
+Claude:
+
+Análisis de bugs
+1. sum(a, b) — Variable inexistente
+javascript// ❌ Bug
+function sum(a, b) {
+  return a + c  // 'c' no existe, debería ser 'b'
+}
+
+// ✅ Fix
+function sum(a, b) {
+  return a + b
+}
+Error: ReferenceError: c is not defined. El parámetro es b pero se referencia c.
+
+2. getUserName(user) — Método mal escrito
+javascript// ❌ Bug
+function getUserName(user) {
+  return user.name.toUppercase()  // JavaScript es case-sensitive
+}
+
+// ✅ Fix
+function getUserName(user) {
+  return user.name.toUpperCase()
+}
+Error: TypeError: user.name.toUppercase is not a function. El método correcto es toUpperCase() con la "C" en mayúscula.
+
+3. multiply(arr) — Valor inicial incorrecto
+javascript// ❌ Bug
+function multiply(arr) {
+  let result = 0       // Multiplicar por 0 siempre da 0
+  for (let i = 0; i < arr.length; i++) {
+    result *= arr[i]
+  }
+  return result        // Siempre retorna 0
+}
+
+// ✅ Fix
+function multiply(arr) {
+  let result = 1       // El neutro de la multiplicación es 1
+  for (let i = 0; i < arr.length; i++) {
+    result *= arr[i]
+  }
+  return result
+}
+Error: lógico, no lanza excepción pero siempre retorna 0. El valor inicial debe ser 1 porque cualquier número multiplicado por 0 es 0.
+
+Resumen
+FunciónTipo de errorCausasumReferenceErrorVariable c no declaradagetUserNameTypeErrorTypo en nombre de métodomultiplyLógicoNeutro multiplicativo incorrecto
+
+
+ChatGPT:
+
+Aquí tienes el análisis de los bugs de cada función y cómo corregirlos.
+
+1️⃣ Función sum
+Código
+function sum(a, b) {
+  return a + c
+}
+Bug
+
+La función intenta usar la variable c, pero no está definida.
+
+Los parámetros de la función son:
+
+a
+b
+
+Por lo tanto, JavaScript lanzará un error:
+
+ReferenceError: c is not defined
+Corrección
+function sum(a, b) {
+  return a + b
+}
+2️⃣ Función getUserName
+Código
+function getUserName(user) {
+  return user.name.toUppercase()
+}
+Bug
+
+El método está mal escrito.
+
+En JavaScript el método correcto es:
+
+toUpperCase()
+
+pero en el código aparece:
+
+toUppercase()
+
+JavaScript distingue mayúsculas y minúsculas, por lo que ese método no existe.
+
+Esto generará un error como:
+
+TypeError: user.name.toUppercase is not a function
+Corrección
+function getUserName(user) {
+  return user.name.toUpperCase()
+}
+
+Opcionalmente se puede añadir una validación:
+
+function getUserName(user) {
+  return user?.name?.toUpperCase()
+}
+3️⃣ Función multiply
+Código
+function multiply(arr) {
+  let result = 0
+  for (let i = 0; i < arr.length; i++) {
+    result *= arr[i]
+  }
+  return result
+}
+Bug
+
+La variable result empieza con valor 0.
+
+Al multiplicar cualquier número por 0, el resultado siempre será 0.
+
+Por ejemplo:
+
+0 * 2 = 0
+0 * 3 = 0
+0 * 4 = 0
+
+Por eso la función siempre devolverá 0, aunque el array tenga números.
+
+Corrección
+
+El valor inicial debe ser 1, que es el elemento neutro de la multiplicación.
+
+function multiply(arr) {
+  let result = 1
+  for (let i = 0; i < arr.length; i++) {
+    result *= arr[i]
+  }
+  return result
+}
+
+Ejemplo:
+
+multiply([2,3,4]) // 24
+Resumen de bugs
+Función	Problema
+sum	Usa variable c que no está definida
+getUserName	Método mal escrito (toUppercase)
+multiply	Inicializa result en 0 en lugar de 1
+
+
+COMPARACION:
+
+En este caso los dos te detectan los mismos errores, te los corrigen de la misma forma y te dan el mismo codigo aunque ChatGPT te da un poco mas de informacion sobre el error, pero la diferencia es muy minima.
