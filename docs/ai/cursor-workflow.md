@@ -48,3 +48,30 @@ function getCompletedTasks(tasks) {
   return tasks.filter(task => task.completed === true);
 }
 
+Ejemplo de cursor para mejorar la legibilidad de la funcion de busqueda de tareas.
+
+Cursor suguirio esta implementacion:
+
+search.addEventListener("input", function handleSearchInput() {
+  const searchTerm = search.value.toLowerCase();
+  const items = document.querySelectorAll("#task-list li");
+
+  items.forEach(item => {
+    const taskText = item.firstChild.textContent.toLowerCase();
+    const matchesSearch = taskText.includes(searchTerm);
+
+    item.style.display = matchesSearch ? "block" : "none";
+  });
+});
+
+
+Atajos de teclado utilizados
+
+Ctrl + K  
+Permite abrir la edición inline con IA para refactorizar o modificar código seleccionado.
+
+Ctrl + L  
+Abre el chat con el agente de IA.
+
+Ctrl + P  
+Permite buscar archivos rápidamente dentro del proyecto.
