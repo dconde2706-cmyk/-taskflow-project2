@@ -67,3 +67,40 @@ Abre el chat con el agente de IA.
 
 Ctrl + P  
 Permite buscar archivos rápidamente dentro del proyecto.
+
+
+
+Instalacion MCP
+
+Para conectar herramientas externas con la IA se utilizó Model Context Protocol (MCP).
+
+Se configuró un servidor MCP de tipo filesystem que permite a la IA acceder a los archivos del proyecto.
+
+Configuración utilizada:
+
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "@modelcontextprotocol/server-filesystem",
+        "./"
+      ]
+    }
+  }
+}
+
+
+Para qué sirve MCP en proyectos reales
+
+MCP permite integrar herramientas externas con asistentes de inteligencia artificial.
+
+En proyectos reales puede utilizarse para:
+
+- Acceder a repositorios de código
+- Consultar bases de datos
+- Buscar información en internet
+- Analizar archivos grandes
+- Automatizar tareas de desarrollo
+
+Esto permite que la IA tenga más contexto y pueda ofrecer respuestas más precisas.
