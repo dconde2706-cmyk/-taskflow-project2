@@ -23,30 +23,22 @@ Cursor presenta una interfaz similar a Visual Studio Code. Los principales compo
 Esta interfaz permite combinar desarrollo tradicional con asistencia de inteligencia artificial.
 
 
-Autocompletado:
+Ejemplo Autocompletado con IA
 
-Autocompletado con IA
-
-Cursor puede generar código automáticamente a partir de comentarios.
+Cursor genera el código automáticamente a partir de comentarios.
 
 Por ejemplo, al escribir:
 
 // function that filters completed tasks
 
-Cursor sugiere automáticamente una implementación que utiliza el método filter de JavaScript.
+Cursor sugiere automáticamente una implementación:
+
+function getCompletedTasks(tasks) {
+  return tasks.filter(task => task.completed === true);
+}
 
 Esto permite escribir funciones más rápido y reduce el trabajo repetitivo.
 
-// function that filters completed tasks
-
-function getCompletedTasks(tasks) {
-  return tasks.filter(task => task.completed === true);
-}
-
-// tasks: [{ id, title, completed }, ...]
-function getCompletedTasks(tasks) {
-  return tasks.filter(task => task.completed === true);
-}
 
 Ejemplo de cursor para mejorar la legibilidad de la funcion de busqueda de tareas.
 
