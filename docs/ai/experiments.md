@@ -41,6 +41,7 @@ function filterCompleted(tasks){
 }
 
 Comparacion:
+
 La versión con IA es más corta, más legible y utiliza métodos mas modernos de JavaScript.
 
 
@@ -108,6 +109,7 @@ function sortTasksByDate(tasks){
   return tasks.sort((a, b) => new Date(a.date) - new Date(b.date))
 }
 
-Comparación
+Comparación:
+
 La version de la IA es mas compacta, ya que utilizo la funcion flecha.
 
