@@ -16,7 +16,6 @@ En este documento se recogen diferentes experimentos utilizando técnicas de *pr
 
 El objetivo es comprobar cómo diferentes formas de formular un prompt influyen en la calidad del código generado, las explicaciones y las propuestas de mejora.
 
-
 Registro de Prompts.
 
 1. Definir un rol
