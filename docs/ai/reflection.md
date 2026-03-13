@@ -6,4 +6,4 @@ Se analizan:
 - Beneficios de utilizar IA
 - Limitaciones encontradas
 - Riesgos de dependencia excesiva
-- Situaciones en las que es preferible programar sin asistencia
+- Situaciones en las que es preferible programar sin asistencia.
