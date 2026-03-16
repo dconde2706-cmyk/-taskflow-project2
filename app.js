@@ -2,81 +2,78 @@ const form = document.getElementById("task-form");
 const input = document.getElementById("task-input");
 const list = document.getElementById("task-list");
 const search = document.getElementById("search-input");
+const themeToggle = document.getElementById("theme-toggle");
 
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-form.addEventListener("submit", function(e) {
+document.addEventListener("DOMContentLoaded", () => {
+  tasks.forEach(task => createTask(task));
+});
+
+
+form.addEventListener("submit", function(e){
   e.preventDefault();
 
-  const taskText = input.value.trim();
+  const text = input.value.trim();
 
-  if(taskText === "") return;
+  if(text === "") return;
 
-  const task = {
-    id: Date.now(),
-    text: taskText
-  };
-
-  tasks.push(task);
-
+  tasks.push(text);
   saveTasks();
-  renderTasks();
+  createTask(text);
 
   input.value = "";
 });
 
-function renderTasks() {
 
-  list.innerHTML = "";
+function createTask(task){
 
-  tasks.forEach(task => {
+  const li = document.createElement("li");
 
-    const li = document.createElement("li");
-    li.textContent = task.text;
+  li.className =
+    "flex justify-between items-center bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white px-3 py-2 rounded";
 
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Eliminar";
+  li.textContent = task;
 
-    deleteBtn.addEventListener("click", () => {
-      deleteTask(task.id);
-    });
+  const deleteBtn = document.createElement("button");
 
-    li.appendChild(deleteBtn);
-    list.appendChild(li);
+  deleteBtn.textContent = "X";
+  deleteBtn.className =
+    "bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded transition";
 
+  deleteBtn.addEventListener("click", () => {
+    li.remove();
+    tasks = tasks.filter(t => t !== task);
+    saveTasks();
   });
 
+  li.appendChild(deleteBtn);
+  list.appendChild(li);
 }
 
-function deleteTask(id) {
-
-  tasks = tasks.filter(task => task.id !== id);
-
-  saveTasks();
-  renderTasks();
-
-}
-
-function saveTasks() {
+function saveTasks(){
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  renderTasks();
-});
+search.addEventListener("input", function(){
 
-search.addEventListener("input", function() {
-
-  const value = search.value.toLowerCase();
-
-  const items = document.querySelectorAll("#task-list li");
+  const text = search.value.toLowerCase();
+  const items = list.querySelectorAll("li");
 
   items.forEach(item => {
 
-    const text = item.firstChild.textContent.toLowerCase();
+    const taskText = item.firstChild.textContent.toLowerCase();
 
-    item.style.display = text.includes(value) ? "block" : "none";
+    if(taskText.includes(text)){
+      item.style.display = "flex";
+    } else {
+      item.style.display = "none";
+    }
 
   });
 
+});
+
+themeToggle.addEventListener("click", () => {
+  document.documentElement.classList.toggle("dark");
 });
