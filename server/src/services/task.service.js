@@ -12,23 +12,31 @@ const crearTarea = ({ titulo, prioridad }) => {
     prioridad,
     completado: false
   };
-
   tasks.push(nueva);
   return nueva;
 };
 
-const eliminarTarea = (id) => {
+const actualizarEstado = (id) => {
   const index = tasks.findIndex(t => t.id === id);
-
   if (index === -1) {
     throw new Error('NOT_FOUND');
   }
+  
+  tasks[index].completado = !tasks[index].completado;
+  return tasks[index];
+};
 
+const eliminarTarea = (id) => {
+  const index = tasks.findIndex(t => t.id === id);
+  if (index === -1) {
+    throw new Error('NOT_FOUND');
+  }
   tasks.splice(index, 1);
 };
 
 module.exports = {
   obtenerTodas,
   crearTarea,
+  actualizarEstado,
   eliminarTarea
 };
