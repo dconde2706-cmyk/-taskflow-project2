@@ -8,53 +8,71 @@ const totalEl = document.getElementById("total");
 const completedEl = document.getElementById("completed");
 const pendingEl = document.getElementById("pending");
 
-const completeAllBtn = document.getElementById("complete-all");
-const clearCompletedBtn = document.getElementById("clear-completed");
-
-
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let tasks = [];
 let currentFilter = "all";
 let searchText = "";
 
+const API_URL = "http://localhost:3000/api/v1/tasks";
 
-document.addEventListener("DOMContentLoaded", renderTasks);
+
+document.addEventListener("DOMContentLoaded", loadTasks);
 
 
-form.addEventListener("submit", function (e) {
+async function loadTasks() {
+  try {
+    list.innerHTML = "<p>Cargando...</p>";
+
+    const res = await fetch(API_URL);
+    const data = await res.json();
+
+    tasks = data;
+    renderTasks();
+  } catch (error) {
+    list.innerHTML = "<p>Error al cargar tareas</p>";
+  }
+}
+
+
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const text = input.value.trim();
   if (!text) return;
 
-  const newTask = {
-    id: Date.now(),
-    title: text,
-    completed: false,
-    createdAt: new Date()
-  };
+  try {
+    await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        titulo: text,
+        prioridad: 1
+      })
+    });
 
-  tasks.push(newTask);
-  saveTasks();
-  renderTasks();
-
-  input.value = "";
+    input.value = "";
+    loadTasks();
+  } catch (error) {
+    alert("Error al crear tarea");
+  }
 });
+
 
 function renderTasks() {
   list.innerHTML = "";
 
   let filtered = tasks;
 
-
   if (currentFilter === "completed") {
-    filtered = filtered.filter(t => t.completed);
+    filtered = filtered.filter(t => t.completado);
   } else if (currentFilter === "pending") {
-    filtered = filtered.filter(t => !t.completed);
+    filtered = filtered.filter(t => !t.completado);
   }
 
   if (searchText) {
     filtered = filtered.filter(t =>
-      t.title.toLowerCase().includes(searchText)
+      t.titulo.toLowerCase().includes(searchText)
     );
   }
 
@@ -65,6 +83,7 @@ function renderTasks() {
   updateStats();
 }
 
+
 function createTaskElement(task) {
   const li = document.createElement("li");
 
@@ -72,22 +91,19 @@ function createTaskElement(task) {
     "flex justify-between items-center bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white px-3 py-2 rounded";
 
   const span = document.createElement("span");
-  span.textContent = task.title;
+  span.textContent = task.titulo;
 
-  if (task.completed) {
+  if (task.completado) {
     span.classList.add("line-through", "opacity-60");
   }
 
   const actions = document.createElement("div");
   actions.className = "flex gap-2";
 
-  const completeBtn = document.createElement("button");
-  completeBtn.textContent = "✔";
-  completeBtn.className = "bg-green-500 px-2 rounded text-white";
-
-  completeBtn.addEventListener("click", () => {
-    toggleTask(task.id);
-  });
+  // ❌ Toggle desactivado (no hay PATCH aún)
+  const info = document.createElement("span");
+  info.textContent = "•";
+  info.className = "px-2";
 
   const deleteBtn = document.createElement("button");
   deleteBtn.textContent = "X";
@@ -95,10 +111,10 @@ function createTaskElement(task) {
     "bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded";
 
   deleteBtn.addEventListener("click", () => {
-    deleteTask(task.id);
+    eliminarTarea(task.id);
   });
 
-  actions.appendChild(completeBtn);
+  actions.appendChild(info);
   actions.appendChild(deleteBtn);
 
   li.appendChild(span);
@@ -107,32 +123,19 @@ function createTaskElement(task) {
   return li;
 }
 
-function toggleTask(id) {
-  tasks = tasks.map(task =>
-    task.id === id ? { ...task, completed: !task.completed } : task
-  );
 
-  saveTasks();
-  renderTasks();
+async function eliminarTarea(id) {
+  try {
+    await fetch(`${API_URL}/${id}`, {
+      method: "DELETE"
+    });
+
+    loadTasks();
+  } catch (error) {
+    alert("Error al eliminar tarea");
+  }
 }
 
-function deleteTask(id) {
-  tasks = tasks.filter(task => task.id !== id);
-  saveTasks();
-  renderTasks();
-}
-
-completeAllBtn.addEventListener("click", () => {
-  tasks = tasks.map(task => ({ ...task, completed: true }));
-  saveTasks();
-  renderTasks();
-});
-
-clearCompletedBtn.addEventListener("click", () => {
-  tasks = tasks.filter(task => !task.completed);
-  saveTasks();
-  renderTasks();
-});
 
 document.querySelectorAll("[data-filter]").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -141,23 +144,22 @@ document.querySelectorAll("[data-filter]").forEach(btn => {
   });
 });
 
+
 search.addEventListener("input", () => {
   searchText = search.value.toLowerCase();
   renderTasks();
 });
 
+
 function updateStats() {
   const total = tasks.length;
-  const completed = tasks.filter(t => t.completed).length;
+  const completed = tasks.filter(t => t.completado).length;
 
   totalEl.textContent = total;
   completedEl.textContent = completed;
   pendingEl.textContent = total - completed;
 }
 
-function saveTasks() {
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-}
 
 themeToggle.addEventListener("click", () => {
   document.documentElement.classList.toggle("dark");
@@ -165,7 +167,6 @@ themeToggle.addEventListener("click", () => {
   const isDark = document.documentElement.classList.contains("dark");
   localStorage.setItem("darkMode", isDark);
 });
-
 
 if (localStorage.getItem("darkMode") === "true") {
   document.documentElement.classList.add("dark");
