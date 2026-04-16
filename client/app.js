@@ -13,7 +13,7 @@ let currentFilter = "all";
 let searchText = "";
 
 
-const API_URL = "http://localhost:3000/api/v1/tasks";
+const API_URL = "https://taskflow-project2.vercel.app/api/v1/tasks";
 
 document.addEventListener("DOMContentLoaded", loadTasks);
 
