@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-// CAMBIO AQUÍ: Si falla el config/env, usamos el 3000 por defecto
+
 let PORT;
 try {
     const env = require('./config/env');
