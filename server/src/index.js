@@ -1,6 +1,14 @@
 const express = require('express');
 const cors = require('cors');
-const { PORT } = require('./config/env');
+// CAMBIO AQUÍ: Si falla el config/env, usamos el 3000 por defecto
+let PORT;
+try {
+    const env = require('./config/env');
+    PORT = env.PORT || 3000;
+} catch (e) {
+    PORT = process.env.PORT || 3000;
+}
+
 const taskRoutes = require('./routes/task.routes');
 const logger = require('./middlewares/logger');
 
@@ -25,9 +33,11 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Error interno del servidor' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
 
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    });
+}
 
 module.exports = app;
