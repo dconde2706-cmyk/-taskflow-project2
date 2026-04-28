@@ -1,4 +1,4 @@
-let tasks = []; 
+let tasks = [];
 let currentId = 1;
 
 const obtenerTodas = () => {
@@ -34,12 +34,15 @@ const eliminarTarea = (id) => {
 };
 
 
+
 const completarTodas = () => {
+  console.log("--- Log: Ejecutando completarTodas ---");
   tasks.forEach(t => t.completado = true);
   return tasks;
 };
 
 const eliminarCompletadas = () => {
+  console.log("--- Log: Ejecutando eliminarCompletadas ---");
   tasks = tasks.filter(t => !t.completado);
   return tasks;
 };
@@ -50,6 +53,6 @@ module.exports = {
   crearTarea,
   actualizarEstado,
   eliminarTarea,
-  completarTodas,      
-  eliminarCompletadas   
+  completarTodas,
+  eliminarCompletadas
 };
