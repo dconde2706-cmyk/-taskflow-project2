@@ -1,4 +1,4 @@
-let tasks = [];
+let tasks = []; 
 let currentId = 1;
 
 const obtenerTodas = () => {
@@ -21,7 +21,6 @@ const actualizarEstado = (id) => {
   if (index === -1) {
     throw new Error('NOT_FOUND');
   }
-  
   tasks[index].completado = !tasks[index].completado;
   return tasks[index];
 };
@@ -33,19 +32,24 @@ const eliminarTarea = (id) => {
   }
   tasks.splice(index, 1);
 };
+
+
 const completarTodas = () => {
-  tareas.forEach(t => t.completado = true);
-  return tareas;
+  tasks.forEach(t => t.completado = true);
+  return tasks;
 };
 
 const eliminarCompletadas = () => {
-  tareas = tareas.filter(t => !t.completado);
-  return tareas;
+  tasks = tasks.filter(t => !t.completado);
+  return tasks;
 };
+
 
 module.exports = {
   obtenerTodas,
   crearTarea,
   actualizarEstado,
-  eliminarTarea
+  eliminarTarea,
+  completarTodas,      
+  eliminarCompletadas   
 };
