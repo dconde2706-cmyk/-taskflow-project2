@@ -47,10 +47,23 @@ const eliminarTarea = (req, res, next) => {
     next(error);
   }
 };
+const completarTodas = (req, res) => {
+  taskService.completarTodas();
+  res.json({ message: 'Todas las tareas completadas' });
+};
+
+const eliminarCompletadas = (req, res) => {
+  taskService.eliminarCompletadas();
+  res.status(200).json({ message: 'Tareas completadas eliminadas' });
+};
+
 
 module.exports = {
   obtenerTodas,
   crearTarea,
   actualizarEstado,
-  eliminarTarea
+  eliminarTarea,
+  completarTodas,  
+  eliminarCompletadas 
 };
+
