@@ -181,3 +181,20 @@ themeToggle.addEventListener("click", () => {
 if (localStorage.getItem("darkMode") === "true") {
   document.documentElement.classList.add("dark");
 }
+
+const completeAllBtn = document.getElementById('complete-all');
+if (completeAllBtn) {
+    completeAllBtn.onclick = async () => {
+        await fetch(`${API_URL}/complete-all`, { method: 'PATCH' });
+        fetchTasks(); // Recarga la lista
+    };
+}
+
+
+const clearCompletedBtn = document.getElementById('clear-completed');
+if (clearCompletedBtn) {
+    clearCompletedBtn.onclick = async () => {
+        await fetch(`${API_URL}/completed`, { method: 'DELETE' });
+        fetchTasks(); // Recarga la lista
+    };
+}
