@@ -33,6 +33,15 @@ const eliminarTarea = (id) => {
   }
   tasks.splice(index, 1);
 };
+const completarTodas = () => {
+  tareas.forEach(t => t.completado = true);
+  return tareas;
+};
+
+const eliminarCompletadas = () => {
+  tareas = tareas.filter(t => !t.completado);
+  return tareas;
+};
 
 module.exports = {
   obtenerTodas,
