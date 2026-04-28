@@ -44,7 +44,7 @@ form.addEventListener("submit", async (e) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         titulo: text,
-        prioridad: 1 // Por defecto
+        prioridad: 1 
       })
     });
 
@@ -186,7 +186,7 @@ const completeAllBtn = document.getElementById('complete-all');
 if (completeAllBtn) {
     completeAllBtn.onclick = async () => {
         await fetch(`${API_URL}/complete-all`, { method: 'PATCH' });
-        fetchTasks(); // Recarga la lista
+        fetchTasks(); 
     };
 }
 
@@ -195,6 +195,6 @@ const clearCompletedBtn = document.getElementById('clear-completed');
 if (clearCompletedBtn) {
     clearCompletedBtn.onclick = async () => {
         await fetch(`${API_URL}/completed`, { method: 'DELETE' });
-        fetchTasks(); // Recarga la lista
+        fetchTasks(); 
     };
 }
