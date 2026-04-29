@@ -47,16 +47,25 @@ const eliminarTarea = (req, res, next) => {
     next(error);
   }
 };
+
+
 const completarTodas = (req, res) => {
-  taskService.completarTodas();
-  res.json({ message: 'Todas las tareas completadas' });
+  try {
+    const tareasActualizadas = taskService.completarTodas();
+    res.json(tareasActualizadas); // Enviamos el array de tareas, no un texto
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 const eliminarCompletadas = (req, res) => {
-  taskService.eliminarCompletadas();
-  res.status(200).json({ message: 'Tareas completadas eliminadas' });
+  try {
+    const tareasRestantes = taskService.eliminarCompletadas();
+    res.json(tareasRestantes); // Enviamos el array de tareas, no un texto
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
-
 
 module.exports = {
   obtenerTodas,
