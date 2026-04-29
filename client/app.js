@@ -183,13 +183,16 @@ if (localStorage.getItem("darkMode") === "true") {
 }
 
 
+
 const completeAllBtn = document.getElementById('complete-all');
 if (completeAllBtn) {
     completeAllBtn.onclick = async () => {
         try {
-            // Usamos la ruta exacta que espera tu servidor
+           
             await fetch(`${API_URL}/completar-todas`, { method: 'PATCH' });
-            loadTasks(); // <-- IMPORTANTE: se llama loadTasks, no fetchTasks
+            
+           
+            await loadTasks(); 
         } catch (error) {
             console.error("Error al completar todas:", error);
         }
@@ -201,9 +204,11 @@ const clearCompletedBtn = document.getElementById('clear-completed');
 if (clearCompletedBtn) {
     clearCompletedBtn.onclick = async () => {
         try {
-            // Usamos la ruta exacta que espera tu servidor
+          
             await fetch(`${API_URL}/eliminar-completadas`, { method: 'DELETE' });
-            loadTasks(); // <-- IMPORTANTE: se llama loadTasks, no fetchTasks
+            
+           
+            await loadTasks(); 
         } catch (error) {
             console.error("Error al borrar completadas:", error);
         }
